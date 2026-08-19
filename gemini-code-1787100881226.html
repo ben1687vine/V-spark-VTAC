@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VTAC 康士藤 - 洞見未來 職場角色解鎖</title>
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;500;700&display=swap](https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;500;700&display=swap)" rel="stylesheet">
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <style>
+        /* 華麗中世紀宮廷風變數設定 */
+        :root {
+            --gold-light: #FBE58F;
+            --gold-primary: #D4AF37;
+            --gold-dark: #996515;
+            --velvet-red: #4A0E17;
+            --velvet-dark: #240409;
+            --bg-deep: #0D0A0A;
+            --parchment: #FDF5E6;
+            --border-glow: rgba(212, 175, 55, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-deep);
+            font-family: 'Noto Serif TC', serif; /* 宮廷風字體 */
+            color: var(--parchment);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            background-image: url('X展架-PSCS_工作區域 1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* 手機版主容器 */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(13, 10, 10, 0.85), rgba(36, 4, 9, 0.95));
+            box-shadow: 0 0 40px rgba(0,0,0,1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .view-section {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .view-section.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 標題排版 */
+        h1, h2, h3 {
+            text-align: center;
+            color: var(--gold-light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 15px var(--gold-dark);
+            margin: 0;
+        }
+
+        .title-main {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 4px;
+            line-height: 1.2;
+            background: linear-gradient(to bottom, #FFFDE4, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-sub {
+            font-size: 16px;
+            color: var(--gold-primary);
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 700;
+            border-bottom: 1px solid var(--gold-dark);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        p {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.7;
+            font-size: 15px;
+            color: #EAEAEA;
+            text-align: justify;
+        }
+
+        /* 宮廷華麗窗格 */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(74, 14, 23, 0.6), rgba(13, 10, 10, 0.8));
+            border: 2px solid var(--gold-dark);
+            border-radius: 4px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1), 0 8px 20px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        /* 華麗邊角裝飾 */
+        .glass-panel::before, .glass-panel::after {
+            content: '✦';
+            position: absolute;
+            color: var(--gold-primary);
+            font-size: 20px;
+        }
+        .glass-panel::before { top: -12px; left: -10px; }
+        .glass-panel::after { bottom: -12px; right: -10px; }
+
+        /* 輸入框 */
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--gold-dark);
+            color: var(--gold-light);
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--gold-light);
+            box-shadow: 0 0 10px var(--border-glow);
+        }
+
+        /* 鍍金按鈕 */
+        .btn-gilded {
+            background: linear-gradient(to bottom, #d4af37 0%, #aa7700 50%, #885500 100%);
+            border: 1px solid #FFFDE4;
+            color: #111;
+            padding: 16px;
+            font-size: 18px;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 900;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.6);
+            transition: all 0.2s;
+            margin-top: 15px;
+        }
+
+        .btn-gilded:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* 點選式評分按鈕 (1-10) */
+        .score-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .score-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-dark);
+            background: rgba(0,0,0,0.6);
+            color: var(--gold-light);
+            font-family: 'Noto Serif TC', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+
+        .score-btn.active {
+            background: radial-gradient(circle, var(--gold-light), var(--gold-primary));
+            color: #111;
+            font-weight: 900;
+            border-color: #FFFDE4;
+            box-shadow: 0 0 15px var(--border-glow);
+            transform: scale(1.15);
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .question-hints {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        /* 完美適配手機的結果小卡 */
+        #capture-area {
+            background-color: var(--bg-deep);
+            background-image: url('X展架-PSCS_工作區域 1.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 25px 15px;
+            border-radius: 8px;
+            border: 3px double var(--gold-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            /* 讓卡片緊湊以利手機完整顯示與截圖 */
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #capture-area::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(36, 4, 9, 0.85); /* 鋪上一層深紅絲絨感 */
+            border-radius: 5px;
+            z-index: 0;
+        }
+
+        #capture-area > * {
+            z-index: 1;
+            position: relative;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .card-header .logo-text {
+            font-size: 12px;
+            color: var(--gold-primary);
+            font-family: 'Noto Sans TC', sans-serif;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .card-header .event-title {
+            font-size: 18px;
+            color: var(--gold-light);
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        /* 職業圖片縮小以利版面 */
+        .card-image-container {
+            width: 160px; /* 固定寬度縮小 */
+            height: 240px; /* 依照原圖比例設定 */
+            border: 2px solid var(--gold-primary);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--border-glow);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-role-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 2px 4px #000, 0 0 10px var(--gold-primary);
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #f0f0f0;
+            text-align: justify;
+            background: rgba(0,0,0,0.6);
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 2px solid var(--gold-primary);
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .card-footer {
+            text-align: center;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 11px;
+            color: var(--gold-dark);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            padding-top: 10px;
+            width: 100%;
+        }
+
+        /* 頁首 Logo */
+        .top-logo {
+            text-align: center;
+            padding: 15px 0;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 1px solid var(--gold-dark);
+        }
+        .top-logo span {
+            color: var(--gold-light);
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 2px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--gold-primary);
+            font-size: 14px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* 自訂提示視窗 */
+        #custom-alert {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .alert-box {
+            background: var(--velvet-dark);
+            border: 2px solid var(--gold-primary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 320px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div class="top-logo">
+        <span>VTAC 康士藤人才測評中心</span>
+    </div>
+
+    <!-- View 1: Intro -->
+    <div class="view-section active" id="view-intro">
+        <div class="glass-panel" style="text-align: center;">
+            <h1 class="title-main">解鎖你的<br>職場角色</h1>
+            <div class="title-sub">Future Foresight 洞見未來</div>
+            <p style="text-align: left; margin-top: 10px;">面對工作中的高壓挑戰，你會如何應對？<br><br>透過 60 秒快速測驗，了解自己屬於「騎士、法師、弓箭手或探險家」哪一種職場角色。<br><br>完成測驗後，請向現場工作人員出示結果小卡，即可獲得角色專屬小禮！</p>
+        </div>
+        
+        <div class="glass-panel">
+            <h3 style="font-size: 18px; margin-bottom: 20px;">建立冒險者檔案</h3>
+            <div class="input-group">
+                <label style="text-align: center;">角色名稱 (ID)</label>
+                <input type="text" id="p_name" placeholder="您的姓名或暱稱">
+            </div>
+            <div class="input-group">
+                <label style="text-align: center;">所屬冒險者公會 (公司) 名稱</label>
+                <input type="text" id="p_company" placeholder="請輸入您的公司名稱">
+            </div>
+            <div class="input-group">
+                <label style="text-align: center;">當前等級 (年齡)</label>
+                <input type="number" id="p_age" placeholder="例如: 25">
+            </div>
+            <div class="input-group">
+                <label style="text-align: center;">性別屬性</label>
+                <select id="p_gender">
+                    <option value="" disabled selected>請選擇</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                    <option value="不透露">不透露</option>
+                </select>
+            </div>
+            <button class="btn-gilded" onclick="goToView('view-q1')">開啟挑戰</button>
+        </div>
+    </div>
+
+    <!-- View 2: Q1-Q4 -->
+    <div class="view-section" id="view-q1">
+        <div class="progress-text">◆ 任務階段 1 / 2 ◆</div>
+        
+        <!-- Q1 -->
+        <div class="glass-panel">
+            <div class="question-text">1. 面對高壓挑戰時，我會專注完成任務，提升安全感。</div>
+            <div class="score-group" id="group-q0"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q2 -->
+        <div class="glass-panel">
+            <div class="question-text">2. 面對高壓挑戰時，我會守住並努力完成夥伴交付的任務。</div>
+            <div class="score-group" id="group-q1"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q3 -->
+        <div class="glass-panel">
+            <div class="question-text">3. 面對高壓挑戰時，我會避開任務可能失敗的風險。</div>
+            <div class="score-group" id="group-q2"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q4 -->
+        <div class="glass-panel">
+            <div class="question-text">4. 面對高壓挑戰時，我會確認任務穩定的推進。</div>
+            <div class="score-group" id="group-q3"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <button class="btn-gilded" onclick="checkAndGo('view-q2', 0, 3)">下一階段</button>
+    </div>
+
+    <!-- View 3: Q5-Q8 -->
+    <div class="view-section" id="view-q2">
+        <div class="progress-text">◆ 任務階段 2 / 2 ◆</div>
+
+        <!-- Q5 -->
+        <div class="glass-panel">
+            <div class="question-text">5. 面對高壓挑戰時，我會把握每一個完成任務的機會。</div>
+            <div class="score-group" id="group-q4"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q6 -->
+        <div class="glass-panel">
+            <div class="question-text">6. 我願意承擔風險，挑戰高難度關卡，爭取任務勝利。</div>
+            <div class="score-group" id="group-q5"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q7 -->
+        <div class="glass-panel">
+            <div class="question-text">7. 我會選擇能提升等級、累積經驗值的任務關卡。</div>
+            <div class="score-group" id="group-q6"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <!-- Q8 -->
+        <div class="glass-panel">
+            <div class="question-text">8. 我會花時間找攻略，規劃角色養成，順利闖關。</div>
+            <div class="score-group" id="group-q7"></div>
+            <div class="question-hints"><span>極不符合</span><span>極為符合</span></div>
+        </div>
+        <button class="btn-gilded" onclick="checkAndCalculate()">結算專屬角色</button>
+    </div>
+
+    <!-- View 4: Result -->
+    <div class="view-section" id="view-result">
+        
+        <!-- 卡片截圖區 (設計緊湊以符合手機版面) -->
+        <div id="capture-area">
+            <div class="card-header">
+                <div class="event-title">Future Foresight 洞見未來</div>
+                <div class="logo-text">VTAC 康士藤人才測評中心</div>
+            </div>
+            
+            <div class="card-image-container">
+                <img id="res-img" src="" alt="Role">
+            </div>
+            
+            <div class="card-role-title" id="res-title">角色名稱</div>
+            
+            <div class="card-desc">
+                <strong style="color: var(--gold-light);">冒險者：<span id="res-name-display"></span></strong><br>
+                <div style="margin-top: 5px;" id="res-desc"></div>
+            </div>
+            
+            <div class="card-footer">
+                ✦ 憑此畫面至活動櫃台，領取您的專屬小禮 ✦
+            </div>
+        </div>
+
+        <button class="btn-gilded" onclick="downloadCard()" style="margin-bottom: 15px;">下載專屬卡牌</button>
+        <button class="btn-gilded" style="background: transparent; border-color: var(--gold-dark); color: #aaa; box-shadow: none;" onclick="location.reload()">重新測驗</button>
+    </div>
+</div>
+
+<!-- 自訂提示視窗 -->
+<div id="custom-alert">
+    <div class="alert-box">
+        <h3 style="margin-bottom: 15px; font-size: 18px;">提示</h3>
+        <p style="text-align: center; font-size: 14px;" id="alert-msg">請確認您已填寫所有題目！</p>
+        <button class="btn-gilded" style="padding: 10px; font-size: 16px; margin-top: 20px;" onclick="document.getElementById('custom-alert').style.display='none'">確定</button>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // ⚠️ 請在這裡貼上您的 Google Apps Script Web App 網址 
+    // ==========================================
+    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; 
+
+    // 統計數據 (Q1-Q8)
+    const means = [8.57, 8.73, 8.64, 8.44, 8.40, 7.62, 7.68, 7.36];
+    const sds = [1.37, 1.28, 1.47, 1.40, 1.45, 1.75, 1.98, 1.98];
+
+    // 儲存玩家選擇的分數
+    let scores = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    // 角色設定 
+    const roles = {
+        "法師": {
+            title: "第一象限：策略的法師",
+            desc: "不問得失，專注於魔法與知識的累積，享受完成的成就感。您擅長從攻略中找出最優解，用智慧與策略在充滿壓力的關卡中游刃有餘。",
+            img: "X展架-PSCS-05_0.jpg"
+        },
+        "騎士": {
+            title: "第二象限：守護的騎士",
+            desc: "以守護與避免失敗為優先，謹慎評估、穩健前行。您是團隊最堅實的後盾，在面臨未知陷阱時，能精準確保任務的穩定推進與安全。",
+            img: "X展架-PSCS-04_0.jpg"
+        },
+        "弓箭手": {
+            title: "第三象限：專注的弓箭手",
+            desc: "視挑戰為千載難逢的機會，果斷行動、精準打擊。在職場冒險中，您是積極的機會開拓者，勇於承擔風險以換取最高的任務成就。",
+            img: "X展架-PSCS-02_0.jpg"
+        },
+        "探險家": {
+            title: "第四象限：勇敢的探險家",
+            desc: "兼顧機會與風險，既充滿好奇心追求成功，也懂得備妥裝備避免失敗。您具備卓越的平衡感，在未知領域中穩步前行。",
+            img: "X展架-PSCS-03_0.jpg"
+        }
+    };
+
+    // 動態生成 1-10 點選按鈕
+    function buildScoreButtons() {
+        for(let q = 0; q < 8; q++) {
+            let container = document.getElementById('group-q' + q);
+            let html = '';
+            for(let v = 1; v <= 10; v++) {
+                html += `<div class="score-btn" id="btn-q${q}-v${v}" onclick="selectScore(${q}, ${v})">${v}</div>`;
+            }
+            container.innerHTML = html;
+        }
+    }
+    buildScoreButtons();
+
+    // 處理按鈕點選
+    function selectScore(qIndex, value) {
+        scores[qIndex] = value;
+        // 移除該題所有 active 樣式
+        for(let v = 1; v <= 10; v++) {
+            document.getElementById(`btn-q${qIndex}-v${v}`).classList.remove('active');
+        }
+        // 為點選的加上 active 樣式
+        document.getElementById(`btn-q${qIndex}-v${value}`).classList.add('active');
+    }
+
+    function showAlert(msg) {
+        document.getElementById('alert-msg').innerHTML = msg;
+        document.getElementById('custom-alert').style.display = 'flex';
+    }
+
+    function checkAndGo(viewId, startQ, endQ) {
+        // 檢查該頁面是否都填了
+        for(let i = startQ; i <= endQ; i++) {
+            if(scores[i] === 0) {
+                showAlert(`請確認第 ${i+1} 題已選擇分數！`);
+                return;
+            }
+        }
+        goToView(viewId);
+    }
+
+    function goToView(viewId) {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // 標準常態累積分布函數近似值
+    function normsdist(z) {
+        let sign = 1;
+        if (z < 0) { sign = -1; z = -z; }
+        let k = 1.0 / (1.0 + 0.2316419 * z);
+        let sum = k * (0.319381530 + k * (-0.356563782 + k * (1.781477937 + k * (-1.821255978 + 1.330274429 * k))));
+        let prob = 1.0 - (1.0 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * sum;
+        return 0.5 + sign * (prob - 0.5);
+    }
+
+    // 傳送資料至 Google Sheets
+    function submitToGoogleSheets(data) {
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+            console.log("未設定 Google Sheets 網址，略過上傳。");
+            return;
+        }
+        
+        const params = new URLSearchParams(data);
+        
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: params
+        })
+        .then(res => console.log('✅ 資料已成功送至試算表！'))
+        .catch(error => console.error('❌ 傳送失敗:', error));
+    }
+
+    function checkAndCalculate() {
+        for(let i = 4; i <= 7; i++) {
+            if(scores[i] === 0) {
+                showAlert(`請確認第 ${i+1} 題已選擇分數！`);
+                return;
+            }
+        }
+
+        let sumPrevention = 0;
+        let sumPromotion = 0;
+
+        for (let i = 0; i < 8; i++) {
+            let z = (scores[i] - means[i]) / sds[i];
+            let pr = normsdist(z) * 100;
+            if (i < 4) sumPrevention += pr;
+            else sumPromotion += pr;
+        }
+
+        let avgPrev = sumPrevention / 4;
+        let avgProm = sumPromotion / 4;
+
+        let roleKey = "";
+        
+        if (avgProm >= 50 && avgPrev >= 50) roleKey = "探險家";
+        else if (avgProm >= 50 && avgPrev < 50) roleKey = "弓箭手";
+        else if (avgProm < 50 && avgPrev >= 50) roleKey = "騎士";
+        else roleKey = "法師";
+
+        const res = roles[roleKey];
+        
+        document.getElementById('res-img').src = res.img;
+        document.getElementById('res-title').innerText = res.title;
+        document.getElementById('res-desc').innerText = res.desc;
+        
+        // 抓取基本資料
+        let pName = document.getElementById('p_name').value.trim() || "無名冒險者";
+        let pCompany = document.getElementById('p_company').value.trim() || "未知公會";
+        let pAge = document.getElementById('p_age').value || "未知";
+        let pGender = document.getElementById('p_gender').value || "未知";
+
+        document.getElementById('res-name-display').innerText = pName;
+
+        // 串接 Google Sheets
+        submitToGoogleSheets({
+            name: pName,
+            company: pCompany,
+            age: pAge,
+            gender: pGender,
+            scores: scores.join(','),
+            role: res.title
+        });
+
+        goToView('view-result');
+    }
+
+    function downloadCard() {
+        const captureArea = document.getElementById('capture-area');
+        
+        // 使用 html2canvas 將 DOM 轉為圖片
+        html2canvas(captureArea, {
+            scale: 2, // 確保畫質清晰
+            backgroundColor: "#0D0A0A",
+            useCORS: true
+        }).then(canvas => {
+            let link = document.createElement('a');
+            link.download = 'Future_Foresight_我的角色卡.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }).catch(err => {
+            // 防呆：如果是在本機(file://)打開，可能受限於瀏覽器安全政策無法轉存圖片
+            showAlert("由於瀏覽器安全性限制，可能無法直接下載。<br><br>💡建議您直接<b>「手機截圖」</b>保存這張精美的卡片！");
+        });
+    }
+</script>
+
+</body>
+</html>
